@@ -26,13 +26,13 @@
                 <div class="col-md-6">
                     <div class="row mt-2">
                         <div class="col">
-                            <img src="imagens/padrao/pao_superior.png" alt="">
+                            <img :src="pao[0]" alt="">
                             <img src="imagens/padrao/alface.png" alt="">
                             <img src="imagens/padrao/molho.png" alt="">
                             <img src="imagens/padrao/molho.png" alt="">
                             <img src="imagens/padrao/molho.png" alt="">
                             <img src="imagens/padrao/hamburguer.png" alt="">
-                            <img src="imagens/padrao/pao_inferior.png" alt="">
+                            <img :src="pao[1]" alt="">
                         </div>
                     </div>
                 </div>
@@ -138,7 +138,12 @@
 
     <script>
         const vm = new Vue({
-            el:'#app'
+            el:'#app',
+            computed:{
+                pao(){
+                    return ['imagens/padrao/pao_superior.png','imagens/padrao/pao_inferior.png']
+                }
+            }
         })
     </script>
     

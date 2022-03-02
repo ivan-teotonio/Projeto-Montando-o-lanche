@@ -37,7 +37,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" v-if="etapa == 1">
                     <!--TIPO DE PÃO-->
                     <div class="rol mt-2">
                         <div class="col">
@@ -123,8 +123,64 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <div class="row mt-2">
+                        <div class="col d-flex justify-content-end">
+                            <button type="button" @click="fazerPedido" class="btn btn-primary">Fazer pedido</button>
+                        </div>
+                    </div>
 
                 </div>
+
+                <div class="col-md-6" v-if="etapa == 2">
+                    <div class="row mt-2">
+                        <div class="col">
+                             <div class="card">
+                                <div class="card-header">INFORME SEUS DADOS</div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Nome</label>
+                                        <input v-model="inputNome" type="text" class="form-control">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="" class="form-label">Endereço</label>
+                                        <input v-model="inputEndereco" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+
+                    <div class="row mt-2">
+                        <div class="col d-flex justify-content-between">
+                            <button type="button" @click="etapa -= 1" class="btn btn-warning">Voltar para o lanche</button>
+                            <button type="button" @click="confirmarPedido()" class="btn btn-success">Confirmar</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-6" v-if="etapa == 3">
+                    <div class="row mt-2">
+                        <div class="card">
+                            <div class="card-header">PEDIDO CONFIRMADO</div>
+                            <div class="card-body">
+                                <P>Agora é só aguardar 10 minutinhos</P>
+                                <p>Vamos chamar você em breve ;)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col d-flex justify-content-between">
+                            <button @click="etapa = 1" type="button" class="btn btn-warning">Repetir pedido</button>
+                            <button @click="novoPedido()" type="button" class="btn btn-success">Novo pedido</button>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
@@ -139,7 +195,10 @@
                 inputTipoPao: '',
                 inputSaladas: [],
                 inputMolhos:[],
-                inputHamburguer:''
+                inputHamburguer:'',
+                etapa: 1,
+                inputNome:'',
+                inputEndereco:''
             },
             computed:{
                 pao(){
@@ -187,6 +246,33 @@
                         default:
                             return 'imagens/padrao/hamburguer.png'
                     }
+                }
+            },
+            methods:{
+                fazerPedido(){
+                    if(this.inputTipoPao && this.inputHamburguer){
+                        this.etapa = 2
+                    }else{
+                        alert('Você precisa selecionar no minimo um pão e um hamburguer')
+                    }
+                },
+                confirmarPedido(){
+                    if(this.inputNome && this.inputEndereco){
+                        this.etapa = 3
+                        //realizar uma requisição http para o 
+                        setTimeout(() => this.novoPedido(),7000)
+                    }else{
+                        alert("Você precisa informar seu nome e endereço")
+                    }
+                },
+                novoPedido(){
+                    this.etapa = 1
+                    this.inputTipoPao = ''
+                    this.inputSaladas = []
+                    this.inputMolhos =[]
+                    this.inputHamburguer =''
+                    this.inputNome = ''
+                    this.inputEndereco =''
                 }
             }
         })
